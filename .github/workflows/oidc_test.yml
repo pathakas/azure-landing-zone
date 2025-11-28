@@ -1,0 +1,16 @@
+name: OIDC Test
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_OIDC_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - run: az account show
+
+      - run: az storage account show -n "${{ secrets.TFSTATE_SA }}" -g "${{ secrets.TFSTATE_RG }}"
